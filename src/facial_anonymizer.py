@@ -14,7 +14,7 @@ class FaceDetector():
     
     def anonFaces(self, frame):
         ih, iw, ic = frame.shape
-        self.results = self.faceDetection.proccess(frame)
+        self.results = self.faceDetection.process(frame)
         if self.results.detections:
             for id, detection in enumerate(self.results.detections):
                 boundingboxdata = detection.location_data.relative_bounding_box
@@ -49,7 +49,7 @@ def main():
         cv.imshow("video", frame)
         if cv.waitKey(1) == ord('d'):
             break
-    cap.releast()
+    cap.release()
     cv.destroyAllWindows()
 
 
