@@ -1,0 +1,18 @@
+the required dependencies for this project are the following:
+- python3
+- pip and conda
+- opencv
+- mediapipe
+- vlc
+- polars
+- streamlink
+
+
+installation process:
+
+pip install opencv-contrib-python
+pip install mediapipe
+pip install numpy 
+pip install polars
+pip install vlc
+
