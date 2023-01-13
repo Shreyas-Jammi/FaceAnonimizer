@@ -5,24 +5,28 @@ import sys
 import cv2 as cv 
 import mediapipe as mp 
 
+
+#this is the class in order to simply the frame by frame facial detection/facial anonymization
 class FaceDetector():
     def __init__(self, minDetectionConf = 0.75):
+        #confidence in the facial detection
         self.minDetectionConf = minDetectionConf
-        self.mpFaceDetection = mp.solutions.face_detection
-        self.mpDraw = mp.solutions.drawing_utils
+        self.mpFaceDetection = mp.solutions.face_detection#mediapipe model used for facial detection
+        self.mpDraw = mp.solutions.drawing_utils 
         self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionConf)
     
     def anonFaces(self, frame):
-        ih, iw, ic = frame.shape
-        self.results = self.faceDetection.process(frame)
+        ih, iw, ic = frame.shape #dimensions + colorstream of frame
+        self.results = self.faceDetection.process(frame)#facial detection model applied to frame
         if self.results.detections:
+            #for all faces detected within frames, blacked out bounding boxes are created within frame
             for id, detection in enumerate(self.results.detections):
                 boundingboxdata = detection.location_data.relative_bounding_box
                 thebox = int(boundingboxdata.xmin*iw) - 10, int(boundingboxdata.ymin*ih) - 10, int(boundingboxdata.width*iw*1.2), int(boundingboxdata.height*ih*1.2)
                 cv.putText(frame, f"{int(detection.score[0]*100)}%", (int(boundingboxdata.xmin*iw), int(boundingboxdata.ymin*ih) - 40), cv.FONT_HERSHEY_PLAIN, 3, (255,0,255), 2)
                 cv.rectangle(frame, thebox, (0,0,0), thickness=-1)
-        
-        return frame
+
+        return frame 
 
 
 
