@@ -2,15 +2,8 @@ import time
 import os 
 import subprocess
 import sys  
-try:
-    import cv2 as cv 
-except ImportError:
-    sys.stderr.write("OpenCV required for program execution")
-try:
-    import Mediapipe as mp 
-except ImportError:
-    sys.stderr.write("Mediapipe required for progam execution")
-
+import cv2 as cv 
+import mediapipe as mp 
 
 class FaceDetector():
     def __init__(self, minDetectionConf = 0.75):
@@ -35,18 +28,9 @@ class FaceDetector():
 
 
 def main():
-    try:
-        subprocess.run("touch programlog.txt")
-    except:
-        sys.stderr.write("Cannot create log file")
-        sys.exit()
-    #opening and writing log file
-    logfile = open("programlog.txt", "w")
 
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
-        logfile.write("cannot open video source")
-        logfile.close()
         sys.stderr.write("cannot open video source")
         sys.exit()
     pTime = 0
@@ -54,8 +38,8 @@ def main():
     while True:
         isTrue, frame = cap.read()
         if not isTrue:
-            logfile.write("cannot recieve frames")
-            logfile.close()
+            #sys.stderr.write("cannot recieve frames")
+            print("cannot recieve frames")
             break
         frame = detector.anonFaces(frame=frame)
         cTime = time.time()
